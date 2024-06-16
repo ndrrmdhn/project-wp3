@@ -10,6 +10,7 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\PemilikController;
+use App\Http\Controllers\PenghuniController;
 use App\Http\Middleware\IsSuperAdmin;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Middleware\IsAnggota;
@@ -37,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('user', UserController::class);
         Route::resource('kamar', KamarController::class);
         Route::resource('pemilik', PemilikController::class);
+        Route::resource('penghuni', PenghuniController::class);
     });
 
     Route::middleware([IsAdmin::class])->group(function () {

@@ -20,4 +20,9 @@ class Pemilik extends Model
     {
         return $this->hasMany(Kamar::class);
     }
+
+    public function penghuni()
+    {
+        return $this->hasMany(Penghuni::class);
+    }
 }

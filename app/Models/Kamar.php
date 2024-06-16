@@ -60,4 +60,9 @@ class Kamar extends Model
         'harga' => 'decimal:2',
         'luas' => 'float',
     ];
+
+    public function penghuni()
+    {
+        return $this->hasMany(Penghuni::class);
+    }
 }

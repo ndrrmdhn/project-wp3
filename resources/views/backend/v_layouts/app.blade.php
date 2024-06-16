@@ -97,10 +97,13 @@
                         <a class="waves-effect" href="{{ route('transaksi.index') }}"><i class="menu-icon mdi mdi-shopping"></i><span>Transaksi</span></a>
                     </li>
                     <li>
-                        <a class="waves-effect" href="{{ route('kamar.index') }}"><i class="menu-icon mdi mdi-bed"></i><span>Kamar</span></a>
+                        <a class="waves-effect" href="{{ route('kamar.index') }}"><i class="menu-icon mdi mdi-hotel"></i><span>Kamar</span></a>
                     </li>
                     <li>
-                        <a class="waves-effect" href="{{ route('pemilik.index') }}"><i class="menu-icon mdi mdi-bed"></i><span>Pemilik</span></a>
+                        <a class="waves-effect" href="{{ route('pemilik.index') }}"><i class="menu-icon mdi mdi-clipboard-account"></i><span>Pemilik</span></a>
+                    </li>
+                    <li>
+                        <a class="waves-effect" href="{{ route('penghuni.index') }}"><i class="menu-icon mdi mdi-contact-mail"></i><span>Penghuni</span></a>
                     </li>
                 </ul>
 
