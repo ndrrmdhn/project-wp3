@@ -1,8 +1,5 @@
 @extends('backend.v_layouts.app')
-@section('content')
-<!-- template -->
-
-<div class="col-xs-12">
+@section('content')<div class="col-xs-12">
     <div class="box-content">
         <h4 class="box-title">{{ $judul }}</h4>
         <br>
@@ -10,10 +7,6 @@
             <div class="col-md-6">
                 <table class="table table-bordered">
                     <tbody>
-                        <tr>
-                            <td><strong>Pemilik</strong></td>
-                            <td>{{ $kamar->pemilik }}</td>
-                        </tr>
                         <tr>
                             <td><strong>Nomor</strong></td>
                             <td>{{ $kamar->nomor }}</td>
@@ -80,24 +73,12 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><strong>Foto Utama</strong></td>
+                            <td><strong>Foto</strong></td>
                             <td>
-                                @if ($kamar->foto_utama)
-                                <img src="{{ asset('storage/img-kamar/' . $kamar->foto_utama) }}" alt="Foto Utama" class="img-thumbnail" style="max-width: 300px;">
+                                @if ($kamar->foto)
+                                <img src="{{ asset('storage/img-kamar/' . $kamar->foto) }}" alt="Foto" class="img-thumbnail" style="max-width: 300px;">
                                 @else
-                                <span>Tidak ada foto utama</span>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Foto Tambahan</strong></td>
-                            <td>
-                                @if ($kamar->foto_tambahan)
-                                @foreach ($kamar->foto_tambahan as $foto)
-                                <img src="{{ asset('storage/img-kamar/' . $foto) }}" alt="Foto Tambahan" class="img-thumbnail" style="max-width: 150px; margin-right: 10px;">
-                                @endforeach
-                                @else
-                                <span>Tidak ada foto tambahan</span>
+                                <span>Tidak ada Foto</span>
                                 @endif
                             </td>
                         </tr>
@@ -109,8 +90,5 @@
             </div>
         </div>
     </div>
-    <!-- /.box-content -->
 </div>
-
-<!-- end template-->
 @endsection

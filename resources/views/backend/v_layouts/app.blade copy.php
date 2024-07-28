@@ -16,9 +16,6 @@
     <!-- Material Design Icon -->
     <link rel="stylesheet" href="{{ asset('backend/fonts/material-design/css/materialdesignicons.css') }}">
 
-    <!-- Add Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
     <!-- mCustomScrollbar -->
     <link rel="stylesheet" href="{{ asset('backend/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css') }}">
 
@@ -37,7 +34,7 @@
 <body>
     <div class="main-menu">
         <header class="header">
-            <a href="home" class="logo"><i class="ico mdi mdi-cube-outline"></i>MyKost Admin</a>
+            <a href="index.html" class="logo"><i class="ico mdi mdi-cube-outline"></i>MyAdmin</a>
             <button type="button" class="button-close fa fa-times js__menu_close"></button>
             <div class="user">
                 <a href="#" class="avatar">
@@ -47,19 +44,21 @@
                     <img src="{{ asset('storage/img-user/img-default.jpg') }}" alt="">
                     @endif
                     <span class="status online"></span></a>
-                <h5 class="name"><a href="#">{{ Auth::user()->nama }}</a></h5>
+                <h5 class="name"><a href="profile.html">{{ Auth::user()->nama }}</a></h5>
                 <h5 class="position">
-                    @if (Auth::user()->role =='admin')
+                    @if (Auth::user()->role ==1)
+                    Super Admin
+                    @elseif(Auth::user()->role ==0)
                     Admin
-                    @elseif(Auth::user()->role =='user')
-                    User
+                    @elseif(Auth::user()->role ==2)
+                    Anggota
                     @endif
                 </h5>
                 <!-- /.name -->
                 <div class="control-wrap js__drop_down">
                     <i class="fa fa-caret-down js__drop_down_button"></i>
                     <div class="control-list">
-                        <div class="control-item"><a href="#"><i class="fa fa-user"></i> Profile</a></div>
+                        <div class="control-item"><a href="profile.html"><i class="fa fa-user"></i> Profile</a></div>
                         <div class="control-item"><a href="#"><i class="fa fa-gear"></i> Settings</a></div>
                         <div class="control-item"><a href="#" onclick="event.preventDefault(); document.getElementById('keluar-app').submit();"><i class="fa fa-sign-out"></i> Keluar</a></div>
                     </div>
@@ -78,25 +77,37 @@
                     <li>
                         <a class="waves-effect" href="{{ route('home') }}"><i class="menu-icon mdi mdi-home"></i><span>Beranda</span></a>
                     </li>
-
-                    @if (auth()->user()->role === 'admin')
+                    @if (auth()->user()->role == 1)
                     <li>
                         <a class="waves-effect" href="{{ route('user.index') }}"><i class="menu-icon mdi mdi-account"></i><span>User</span></a>
                     </li>
                     <li>
-                        <a class="waves-effect" href="{{ route('penyewa.index') }}"><i class="menu-icon mdi mdi-ticket-account"></i><span>Penyewa</span></a>
+                        <a class="waves-effect" href="{{ route('anggota.index') }}"><i class="menu-icon mdi mdi-account-multiple"></i><span>Anggota</span></a>
                     </li>
                     @endif
-
-                    @if (auth()->user()->role === 'admin' || auth()->user()->role === 'user')
+                    <li>
+                        <a class="waves-effect parent-item js__control" href="#"><i class="menu-icon mdi mdi-desktop-mac"></i><span>Produk</span><span class="menu-arrow fa fa-angle-down"></span></a>
+                        <ul class="sub-menu js__content">
+                            <li><a href="{{ route('kategori.index') }}">Kategori</a></li>
+                            <li><a href="{{ route('produk.index') }}">Produk</a></li>
+                        </ul>
+                        <!-- /.sub-menu js__content -->
+                    </li>
+                    <li>
+                        <a class="waves-effect" href="{{ route('transaksi.index') }}"><i class="menu-icon mdi mdi-shopping"></i><span>Transaksi</span></a>
+                    </li>
                     <li>
                         <a class="waves-effect" href="{{ route('kamar.index') }}"><i class="menu-icon mdi mdi-hotel"></i><span>Kamar</span></a>
                     </li>
                     <li>
-                        <a class="waves-effect" href="{{ route('pembayaran.index') }}"><i class="menu-icon mdi mdi-credit-card"></i><span>Pembayaran</span></a>
+                        <a class="waves-effect" href="{{ route('pemilik.index') }}"><i class="menu-icon mdi mdi-clipboard-account"></i><span>Pemilik</span></a>
                     </li>
-                    @endif
+                    <li>
+                        <a class="waves-effect" href="{{ route('penghuni.index') }}"><i class="menu-icon mdi mdi-contact-mail"></i><span>Penghuni</span></a>
+                    </li>
                 </ul>
+
+
                 <!-- /.menu js__accordion -->
             </div>
             <!-- /.navigation -->
@@ -113,14 +124,14 @@
         </div>
         <!-- /.pull-left -->
         <div class="pull-right">
-            {{-- <div class="ico-item">
+            <div class="ico-item">
                 <a href="#" class="ico-item mdi mdi-magnify js__toggle_open" data-target="#searchform-header"></a>
                 <form action="#" id="searchform-header" class="searchform js__toggle"><input type="search" placeholder="Search..." class="input-search"><button class="mdi mdi-magnify button-search" type="submit"></button></form>
                 <!-- /.searchform -->
             </div>
             <!-- /.ico-item -->
             <a href="#" class="ico-item mdi mdi-email notice-alarm js__toggle_open" data-target="#message-popup"></a>
-            <a href="#" class="ico-item pulse"><span class="ico-item mdi mdi-bell notice-alarm js__toggle_open" data-target="#notification-popup"></span></a> --}}
+            <a href="#" class="ico-item pulse"><span class="ico-item mdi mdi-bell notice-alarm js__toggle_open" data-target="#notification-popup"></span></a>
 
             <a href="#" class="ico-item mdi mdi-logout js__logout" onclick="event.preventDefault(); document.getElementById('keluar-app').submit();"></a>
         </div>
@@ -316,14 +327,14 @@
 
             </div>
             <!-- /.row small-spacing -->
-            {{-- <footer class="footer">
+            <footer class="footer">
                 <ul class="list-inline">
                     <li>2016 © NinjaAdmin.</li>
                     <li><a href="#">Privacy</a></li>
                     <li><a href="#">Terms</a></li>
                     <li><a href="#">Help</a></li>
                 </ul>
-            </footer> --}}
+            </footer>
         </div>
         <!-- /.main-content -->
     </div><!--/#wrapper -->
@@ -403,27 +414,6 @@
             }
         }
     </script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script type="text/javascript">
-    $('.show_confirm').click(function(event) {
-        var form =  $(this).closest("form");
-        var name = $(this).data("konf-delete");
-        event.preventDefault();
-        Swal.fire({
-            title: Are you sure you want to delete ${name}?,
-            text: "If you delete this, it will be gone forever.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, keep it"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    });
-</script>
 
     <form id="keluar-app" action="{{ route('logout') }}" method="POST" class="d-none">
         @csrf

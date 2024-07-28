@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Kategori;
+use App\Models\Kamar;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,67 +16,93 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'nama' => 'Administrator',
+            'nama' => 'Admin',
             'email' => 'admin@gmail.com',
-            'role' => '1',
-            'status' => 1,
-            'hp' => '081234567891',
             'password' => bcrypt('P@55word'),
+            'hp' => '081234567890',
+            'role' => 'admin',
+            'status' => true,
+            'foto' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
         User::create([
-            'nama' => 'Sopian Aji',
-            'email' => 'sopianaji@gmail.com',
-            'role' => '0',
-            'status' => 1,
-            'hp' => '081234567892',
+            'nama' => 'Fulan Bin Fulan',
+            'email' => 'user@gmail.com',
             'password' => bcrypt('P@55word'),
+            'hp' => '087654321098',
+            'role' => 'user',
+            'status' => true,
+            'foto' => null,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-        User::create([
-            'nama' => 'Andre Ramadhan',
-            'email' => 'andre@gmail.com',
-            'role' => '2',
-            'status' => 0,
-            'hp' => '083124332900',
-            'password' => bcrypt('P@55word'),
+        Kamar::create([
+            'nomor' => '301',
+            'deskripsi' => 'Kamar ini terletak di lantai 3',
+            'harga' => 1500000.00,
+            'luas' => 20.5,
+            'tipe_kamar' => 'campuran',
+            'status' => 'tersedia',
+            'alamat' => 'Jl. Sipelem No.22, Kraton, Kec. Tegal Bar., Kota Tegal, Jawa Tengah 52112',
+            'fasilitas_ac' => true,
+            'fasilitas_wifi' => true,
+            'fasilitas_tv' => false,
+            'fasilitas_perabotan' => true,
+            'fasilitas_dapur' => false,
+            'fasilitas_kamar_mandi_dalam' => true,
+            'fasilitas_keamanan_24_jam' => true,
+            'fasilitas_tempat_parkir' => true,
+            'foto' => 'kamar_301',
         ]);
-        User::create([
-            'nama' => 'Mahesa Agni',
-            'email' => 'mahes@gmail.com',
-            'role' => '2',
-            'status' => 0,
-            'hp' => '085700041709',
-            'password' => bcrypt('P@55word'),
+        Kamar::create([
+            'nomor' => '302',
+            'deskripsi' => 'Kamar ini terletak di lantai 3',
+            'harga' => 1200000.00,
+            'luas' => 18.5,
+            'tipe_kamar' => 'campuran',
+            'status' => 'tersedia',
+            'alamat' => 'Jl. Sipelem No.22, Kraton, Kec. Tegal Bar., Kota Tegal, Jawa Tengah 52112',
+            'fasilitas_ac' => true,
+            'fasilitas_wifi' => true,
+            'fasilitas_tv' => false,
+            'fasilitas_perabotan' => true,
+            'fasilitas_dapur' => false,
+            'fasilitas_kamar_mandi_dalam' => true,
+            'fasilitas_keamanan_24_jam' => true,
+            'fasilitas_tempat_parkir' => true,
+            'foto' => 'kamar_302',
         ]);
-        User::create([
-            'nama' => 'Farrel Rizkian',
-            'email' => 'Farrel@gmail.com',
-            'role' => '2',
-            'status' => 0,
-            'hp' => '082328587316',
-            'password' => bcrypt('P@55word'),
+        Kamar::create([
+            'nomor' => '303',
+            'deskripsi' => 'Kamar ini terletak di lantai 3',
+            'harga' => 1500000,
+            'luas' => 20.5,
+            'tipe_kamar' => 'campuran',
+            'status' => 'tersedia',
+            'alamat' => 'Jl. Sipelem No.22, Kraton, Kec. Tegal Bar., Kota Tegal, Jawa Tengah 52112',
+            'fasilitas_ac' => true,
+            'fasilitas_wifi' => true,
+            'fasilitas_tv' => false,
+            'fasilitas_perabotan' => true,
+            'fasilitas_dapur' => false,
+            'fasilitas_kamar_mandi_dalam' => true,
+            'fasilitas_keamanan_24_jam' => true,
+            'fasilitas_tempat_parkir' => true,
+            'foto' => 'kamar_303',
         ]);
-        User::create([
-            'nama' => 'Adhanta Cahya Purnama',
-            'email' => 'adhanta@gmail.com',
-            'role' => '2',
-            'status' => 0,
-            'hp' => '082313872679',
-            'password' => bcrypt('P@55word'),
-        ]);
-        Kategori::create([
-            'nama_kategori' => 'Brownies',
-        ]);
-        Kategori::create([
-            'nama_kategori' => 'Cookies',
-        ]);
-        Kategori::create([
-            'nama_kategori' => 'Doughnuts',
-        ]);
-        Kategori::create([
-            'nama_kategori' => 'Croissants',
-        ]);
-        Kategori::create([
-            'nama_kategori' => 'Muffins',
-        ]);
+
+        // $this->call([
+        //     UserSeeder::class
+        // ]);        
+        // $this->call([
+        //     SeedersKamarSeeder::class
+        // ]);
+        // $this->call([
+        //     PenyewaSeeder::class
+        // ]);
+        // $this->call([
+        //     PembayaranSeeder::class
+        // ]);
     }
 }

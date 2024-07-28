@@ -1,20 +1,9 @@
 @extends('backend.v_layouts.app')
-@section('content')
-<!-- template -->
-
-<div class="col-xs-12">
+@section('content')<div class="col-xs-12">
     <div class="box-content">
         <h4 class="box-title">{{ $judul }}</h4>
-        <!-- /.box-title -->
-
         <form action="{{ route('kamar.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-
-            <div class="form-group">
-                <label for="pemilik">Pemilik</label>
-                <input type="text" class="form-control" id="pemilik" name="pemilik" value="{{ old('pemilik') }}" required>
-            </div>
-
             <div class="form-group">
                 <label for="nomor">Nomor Kamar</label>
                 <input type="text" class="form-control" id="nomor" name="nomor" value="{{ old('nomor') }}" required>
@@ -99,13 +88,8 @@
             </div>
 
             <div class="form-group">
-                <label for="foto_utama">Foto Utama</label>
-                <input type="file" class="form-control" id="foto_utama" name="foto_utama">
-            </div>
-
-            <div class="form-group">
-                <label for="foto_tambahan">Foto Tambahan</label>
-                <input type="file" class="form-control" id="foto_tambahan" name="foto_tambahan[]" multiple>
+                <label for="foto">Foto</label>
+                <input type="file" class="form-control" id="foto" name="foto">
             </div>
 
             <button type="submit" class="btn btn-primary">Simpan</button>
@@ -114,8 +98,5 @@
             </a>
         </form>
     </div>
-    <!-- /.box-content -->
 </div>
-
-<!-- end template-->
 @endsection

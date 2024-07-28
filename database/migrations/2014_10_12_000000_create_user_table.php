@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('email')->unique();
-            $table->enum('role', [0, 1, 2])->default(0); //  0 = Admin, 1 = SuperAdmin,  2 = Anggota
-            $table->boolean('status');
             $table->string('password');
-            $table->string('hp', 13);
+            $table->string('hp', 13)->nullable();
+            $table->enum('role', ['user', 'admin'])->default('user');
+            $table->boolean('status')->default(true);
             $table->string('foto')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

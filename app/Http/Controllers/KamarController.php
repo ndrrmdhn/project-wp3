@@ -35,7 +35,6 @@ class KamarController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'pemilik' => 'required|string|max:255',
             'nomor' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric',
@@ -51,20 +50,19 @@ class KamarController extends Controller
             'fasilitas_kamar_mandi_dalam' => 'boolean',
             'fasilitas_keamanan_24_jam' => 'boolean',
             'fasilitas_tempat_parkir' => 'boolean',
-            'foto_utama' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:1024',
-            'foto_tambahan' => 'nullable|array',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:1024',
         ], [
-            'foto_utama.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png, atau gif.',
-            'foto_utama.max' => 'Ukuran file gambar maksimal adalah 1024 KB.'
+            'foto.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png, atau gif.',
+            'foto.max' => 'Ukuran file gambar maksimal adalah 1024 KB.'
         ]);
 
-        if ($request->file('foto_utama')) {
-            $file = $request->file('foto_utama');
+        if ($request->file('foto')) {
+            $file = $request->file('foto');
             $extension = $file->getClientOriginalExtension();
             $originalFileName = date('YmdHis') . '_' . uniqid() . '.' . $extension;
             $directory = 'storage/img-kamar/';
             $file->move($directory, $originalFileName);
-            $validatedData['foto_utama'] = $originalFileName;
+            $validatedData['foto'] = $originalFileName;
         }
 
         Kamar::create($validatedData);
@@ -103,7 +101,6 @@ class KamarController extends Controller
         $kamar = Kamar::findOrFail($id);
 
         $validatedData = $request->validate([
-            'pemilik' => 'required|string|max:255',
             'nomor' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'harga' => 'required|numeric',
@@ -119,27 +116,26 @@ class KamarController extends Controller
             'fasilitas_kamar_mandi_dalam' => 'boolean',
             'fasilitas_keamanan_24_jam' => 'boolean',
             'fasilitas_tempat_parkir' => 'boolean',
-            'foto_utama' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:1024',
-            'foto_tambahan' => 'nullable|array',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:1024',
         ], [
-            'foto_utama.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png, atau gif.',
-            'foto_utama.max' => 'Ukuran file gambar maksimal adalah 1024 KB.'
+            'foto.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png, atau gif.',
+            'foto.max' => 'Ukuran file gambar maksimal adalah 1024 KB.'
         ]);
 
-        if ($request->file('foto_utama')) {
-            if ($kamar->foto_utama) {
-                $oldImagePath = public_path('storage/img-kamar/') . $kamar->foto_utama;
+        if ($request->file('foto')) {
+            if ($kamar->foto) {
+                $oldImagePath = public_path('storage/img-kamar/') . $kamar->foto;
                 if (file_exists($oldImagePath)) {
                     unlink($oldImagePath);
                 }
             }
 
-            $file = $request->file('foto_utama');
+            $file = $request->file('foto');
             $extension = $file->getClientOriginalExtension();
             $originalFileName = date('YmdHis') . '_' . uniqid() . '.' . $extension;
             $directory = 'storage/img-kamar/';
             $file->move($directory, $originalFileName);
-            $validatedData['foto_utama'] = $originalFileName;
+            $validatedData['foto'] = $originalFileName;
         }
 
         $kamar->update($validatedData);
@@ -152,8 +148,8 @@ class KamarController extends Controller
     public function destroy($id)
     {
         $kamar = Kamar::findOrFail($id);
-        if ($kamar->foto_utama) {
-            $oldImagePath = public_path('storage/img-kamar/') . $kamar->foto_utama;
+        if ($kamar->foto) {
+            $oldImagePath = public_path('storage/img-kamar/') . $kamar->foto;
             if (file_exists($oldImagePath)) {
                 unlink($oldImagePath);
             }

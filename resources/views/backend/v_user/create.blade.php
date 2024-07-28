@@ -1,107 +1,99 @@
 @extends('backend.v_layouts.app')
 @section('content')
-<!-- template -->
-
-
 <div class="col-lg-12 col-xs-12">
     <div class="box-content card white">
         <h4 class="box-title">{{ $judul }}</h4>
-        <!-- /.box-title -->
         <div class="card-content">
-            <form action="/user" method="post" enctype="multipart/form-data">
+            <form method="POST" action="{{ url('/user') }}" enctype="multipart/form-data">
                 @csrf
-                <div class="col-md-4">
-                    {{-- div left --}}
-                    <div class="form-group">
-                        <label>Foto</label>
-                        <img class="foto-preview">
-                        <input type="file" name="foto" class="form-control @error('foto') is-invalid @enderror" onchange="previewFoto()">
-                        @error('foto')
-                        <div class="invalid-feedback alert-danger">{{ $message }}</div>
-                        @enderror
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="foto">Foto</label>
+                            <img class="foto-preview img-responsive" src="{{ asset('placeholder.jpg') }}" style="max-width: 200px; max-height: 200px;">
+                            <input type="file" id="foto" name="foto" class="form-control-file @error('foto') is-invalid @enderror" onchange="previewFoto()">
+                            @error('foto')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="role">Hak Akses</label>
+                            <select name="role" id="role" class="form-control @error('role') is-invalid @enderror">
+                                <option value="" {{ old('role') == '' ? 'selected' : '' }}> - Pilih Hak Akses - </option>
+                                <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+                            </select>
+                            @error('role')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nama">Nama</label>
+                            <input type="text" id="nama" name="nama" value="{{ old('nama') }}" class="form-control @error('nama') is-invalid @enderror" placeholder="Masukkan Nama">
+                            @error('nama')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan Email">
+                            @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hp">HP</label>
+                            <input type="text" id="hp" name="hp" value="{{ old('hp') }}" class="form-control @error('hp') is-invalid @enderror" placeholder="Masukkan Nomor HP" onkeypress="return hanyaAngka(event)">
+                            @error('hp')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan Password">
+                            @error('password')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password_confirmation">Konfirmasi Password</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password">
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-8">
-                    {{-- div right --}}
 
-                    <div class="form-group">
-                        <label>Hak Ases</label>
-                        <select name="role" class="form-control @error('role') is-invalid @enderror">
-                            <option value="" {{ old('role') == '' ? 'selected' : '' }}> - Pilih Hak Akses
-                                -
-                            </option>
-                            <option value="1" {{ old('role') == '1' ? 'selected' : '' }}> Super Admin</option>
-                            <option value="0" {{ old('role') == '0' ? 'selected' : '' }}> Admin
-                            </option>
-                            <option value="2" {{ old('role') == '2' ? 'selected' : '' }}> Anggota
-                            </option>
-                        </select>
-                        @error('role')
-                        <span class="invalid-feedback alert-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nama</label>
-                        <input type="text" name="nama" value="{{ old('nama') }}" class="form-control @error('nama') is-invalid @enderror" placeholder="Masukkan Nama">
-                        @error('nama')
-                        <span class="invalid-feedback alert-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="text" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan Email">
-                        @error('email')
-                        <span class="invalid-feedback alert-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label>HP</label>
-                        <input type="text" onkeypress="return hanyaAngka(event)" name="hp" value="{{ old('hp') }}" class="form-control @error('hp') is-invalid @enderror" placeholder="Masukkan Nomor HP">
-                        @error('hp')
-                        <span class="invalid-feedback alert-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan Password">
-                        @error('password')
-                        <span class="invalid-feedback alert-danger" role="alert">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label>Konfirmasi Password</label>
-                        <input type="password" name="password_confirmation" class="form-control" placeholder="Konfirmasi Password">
-                    </div>
-
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Simpan</button>
+                    <a href="{{ route('user.index') }}" class="btn btn-default btn-sm waves-effect waves-light">Kembali</a>
                 </div>
-
-                <br>
-                <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Simpan</button>
-                <a href="{{ route('user.index') }}">
-                    <button type="button" class="btn waves-effect btn-sm waves-effect waves-light">Kembali</button>
-                </a>
-
             </form>
         </div>
-        <!-- /.card-content -->
     </div>
-    <!-- /.box-content -->
 </div>
-<!-- end template-->
 @endsection
+
+@push('scripts')
+<script>
+    function previewFoto() {
+        var fileInput = document.getElementById('foto');
+        var preview = document.querySelector('.foto-preview');
+
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+</script>
+@endpush

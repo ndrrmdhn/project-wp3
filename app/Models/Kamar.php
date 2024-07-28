@@ -19,10 +19,9 @@ class Kamar extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var array
      */
     protected $fillable = [
-        'pemilik',
         'nomor',
         'deskripsi',
         'harga',
@@ -38,31 +37,22 @@ class Kamar extends Model
         'fasilitas_kamar_mandi_dalam',
         'fasilitas_keamanan_24_jam',
         'fasilitas_tempat_parkir',
-        'foto_utama',
-        'foto_tambahan',
+        'foto',
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * Get the penyewas for the kamar.
      */
-    protected $casts = [
-        'fasilitas_ac' => 'boolean',
-        'fasilitas_wifi' => 'boolean',
-        'fasilitas_tv' => 'boolean',
-        'fasilitas_perabotan' => 'boolean',
-        'fasilitas_dapur' => 'boolean',
-        'fasilitas_kamar_mandi_dalam' => 'boolean',
-        'fasilitas_keamanan_24_jam' => 'boolean',
-        'fasilitas_tempat_parkir' => 'boolean',
-        'foto_tambahan' => 'array',
-        'harga' => 'decimal:2',
-        'luas' => 'float',
-    ];
-
-    public function penghuni()
+    public function penyewa()
     {
-        return $this->hasMany(Penghuni::class);
+        return $this->hasMany(Penyewa::class);
+    }
+
+    /**
+     * Get the pembayarans for the kamar.
+     */
+    public function pembayaran()
+    {
+        return $this->hasMany(Pembayaran::class);
     }
 }

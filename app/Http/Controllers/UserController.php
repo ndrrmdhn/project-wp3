@@ -39,24 +39,22 @@ class UserController extends Controller
         // ddd($request);
         $validatedData = $request->validate([
             'nama' => 'required|max:255',
-            'email' => 'required|email|unique:user',
+            'email' => 'required|email|unique:user,email',
             'role' => 'required',
             'hp' => 'required|min:10|max:13',
-            'password' => 'required|min:4|confirmed',
+            'password' => 'required|min:6|confirmed',
             'foto' => 'image|mimes:jpeg,jpg,png,gif|file|max:1024',
         ], $messages = [
-            'foto.image' => 'Format gambar gunakan file dengan ekstensi jpeg, jpg, png, atau gif.',
-            'foto.max' => 'Ukuran file gambar Maksimal adalah 1024 KB.'
+            'foto.image' => 'Format gambar harus jpeg, jpg, png, atau gif.',
+            'foto.max' => 'Ukuran file gambar maksimal 1024 KB.'
         ]);
-        $validatedData['status'] = 0;
+        $validatedData['status'] = 1; // Default status aktif
 
-        // menggunkan ImageHelper
-        if ($request->file('foto')) {
+        //ImageHelper
+        if ($request->hasFile('foto')) {
             $file = $request->file('foto');
-            $directory = 'storage/img-user/'; // Atur direktori yang diinginkan
-            $width = 400; // Atur lebar gambar
-            $height = 400; // $height = null (jika tinggi otomatis)
-            $fileName = ImageHelper::uploadAndResize($file, $directory, $width, $height); // Menggunakan ImageHelper untuk upload dan resize gambar
+            $directory = 'storage/img-user/';
+            $fileName = ImageHelper::uploadAndResize($file, $directory, 400, 400);
             $validatedData['foto'] = $fileName;
         }
 
@@ -79,7 +77,11 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('backend.v_user.show', [
+            'judul' => 'Detail User',
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -119,9 +121,9 @@ class UserController extends Controller
 
         $validatedData = $request->validate($rules, $messages);
 
-        // menggunkan ImageHelper
+        //ImageHelper
         if ($request->file('foto')) {
-            //hapus gambar lama
+            //Hapus foto lama jika ada
             if ($user->foto) {
                 $oldImagePath = public_path('storage/img-user/') . $user->foto;
                 if (file_exists($oldImagePath)) {
@@ -146,6 +148,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = user::findOrFail($id);
+        //Hapus foto pengguna jika ada
         if ($user->foto) {
             $oldImagePath = public_path('storage/img-user/') . $user->foto;
             if (file_exists($oldImagePath)) {

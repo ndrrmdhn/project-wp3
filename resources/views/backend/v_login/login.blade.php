@@ -24,7 +24,8 @@
             
             <div class="inside">
            
-                <div class="title"><strong>Ninja</strong>Admin</div>
+                {{-- <div class="title"><strong>Ninja</strong>Admin</div> --}}
+                <div class="title"><strong>MyKost Admin</strong></div>
                 <!-- /.title -->
                 
                 <div class="frm-title">Login</div>
@@ -61,7 +62,7 @@
                         <!-- /.checkbox -->
                     </div>
                     <!-- /.pull-left -->
-                    <div class="pull-right"><a href="page-recoverpw.html" class="a-link"><i class="fa fa-unlock-alt"></i>Forgot password?</a></div>
+                    {{-- <div class="pull-right"><a href="page-recoverpw.html" class="a-link"><i class="fa fa-unlock-alt"></i>Forgot password?</a></div> --}}
                     <!-- /.pull-right -->
                 </div>
                 <!-- /.clearfix -->
@@ -69,7 +70,7 @@
                 <button type="submit" class="frm-submit">Login<i class="fa fa-arrow-circle-right"></i></button>
 
 
-                <div class="frm-footer">NinjaAdmin © 2016.</div>
+                {{-- <div class="frm-footer">NinjaAdmin © 2016.</div> --}}
                 <!-- /.footer -->
             </div>
             <!-- .inside -->
