@@ -32,7 +32,7 @@
             </div>
             
             <div class="form-group">
-                <label for="keterangan">Keterangan</label>
+                <label for="keterangan">Keterangan (Lunas/Belum Lunas)</label>
                 <textarea name="keterangan" id="keterangan" class="form-control">{{ old('keterangan', $pembayaran->keterangan) }}</textarea>
                 @error('keterangan')
                 <small class="text-danger">{{ $message }}</small>

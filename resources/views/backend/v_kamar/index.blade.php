@@ -3,10 +3,12 @@
 <div class="col-xs-12">
     <div class="box-content">
         <h4 class="box-title">{{ $judul }} <br><br>
-            <a href="{{ route('kamar.create') }}">
-                <button type="button" class="btn btn-icon btn-icon-left btn-info btn-xs waves-effect waves-light">
-                    <i class="ico fa fa-plus"></i>Tambah</button>
-            </a>
+            @if(auth()->user()->role == 'admin') <!-- Cek apakah pengguna adalah admin -->
+                <a href="{{ route('kamar.create') }}">
+                    <button type="button" class="btn btn-icon btn-icon-left btn-info btn-xs waves-effect waves-light">
+                        <i class="ico fa fa-plus"></i>Tambah</button>
+                </a>
+            @endif
         </h4>
 
         <table id="example" class="table table-striped table-bordered display" style="width:100%">
@@ -44,27 +46,18 @@
                         <a href="{{ route('kamar.show', $row->id) }}" title="Lihat Detail">
                             <span class="label label-info"><i class="fa fa-eye"></i> Lihat</span>
                         </a>
-                        <a href="{{ route('kamar.edit', $row->id) }}" title="Ubah Data">
-                            <span class="label label-primary"><i class="fa fa-edit"></i> Ubah</span>
-                        </a>
-                        <form method="POST" action="{{ route('kamar.destroy', $row->id) }}" style="display: inline-block;">
-                            @method('DELETE')
-                            @csrf
-                            <button type="submit" class="label label-danger btn-sm show_confirm" data-toggle="tooltip" title='Hapus' data-konf-delete="{{ $row->id }}"><i class="fa fa-trash"></i> Hapus</button>
-                        </form>
-                        {{-- <a href="{{ route('kamar.show', $row->id) }}" class="btn btn-info btn-xs" title="Lihat Detail">
-                            <i class="fa fa-eye"></i> Lihat
-                        </a> --}}
-                        {{-- <a href="{{ route('kamar.edit', $row->id) }}" class="btn btn-primary btn-xs" title="Ubah Data">
-                            <i class="fa fa-edit"></i> Ubah
-                        </a> --}}
-                        {{-- <form method="POST" action="{{ route('kamar.destroy', $row->id) }}" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Anda yakin ingin menghapus data ini?')" title="Hapus Data">
-                                <i class="fa fa-trash"></i> Hapus
-                            </button>
-                        </form> --}}
+                        @if(auth()->user()->role == 'admin') <!-- Cek apakah pengguna adalah admin -->
+                            <a href="{{ route('kamar.edit', $row->id) }}" title="Ubah Data">
+                                <span class="label label-primary"><i class="fa fa-edit"></i> Ubah</span>
+                            </a>
+                            <form method="POST" action="{{ route('kamar.destroy', $row->id) }}" style="display: inline-block;">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit" class="label label-danger btn-sm show_confirm" data-toggle="tooltip" title="Hapus" data-konf-delete="{{ $row->id }}">
+                                    <i class="fa fa-trash"></i> Hapus
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

@@ -6,7 +6,11 @@
 
     <div class="box-content">
         <h4 class="box-title"> {{$judul}} </h4>
-        Selamat datang <b>Administrator</b> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae assumenda dolor et reiciendis dolores omnis, dicta minima ducimus architecto voluptate quam fugiat similique excepturi deleniti nihil commodi autem tenetur eum!
+        @if(Auth::check())
+            Selamat datang <b>{{ Auth::user()->nama }}</b>
+        @else
+            Selamat datang
+        @endif
 
     </div>
 </div>

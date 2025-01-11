@@ -3,10 +3,12 @@
 <div class="col-xs-12">
     <div class="box-content">
         <h4 class="box-title">{{ $judul }} <br><br>
-            <a href="{{ route('pembayaran.create') }}">
-                <button type="button" class="btn btn-icon btn-icon-left btn-info btn-xs waves-effect waves-light">
-                    <i class="ico fa fa-plus"></i>Tambah</button>
-            </a>
+            @if(auth()->user()->role == 'admin') <!-- Cek apakah pengguna adalah admin -->
+                <a href="{{ route('pembayaran.create') }}">
+                    <button type="button" class="btn btn-icon btn-icon-left btn-info btn-xs waves-effect waves-light">
+                        <i class="ico fa fa-plus"></i>Tambah</button>
+                </a>
+            @endif
         </h4>
 
         <table id="example" class="table table-striped table-bordered display" style="width:100%">
@@ -16,7 +18,7 @@
                     <th>Nomor Pembayaran</th>
                     <th>Tanggal Pembayaran</th>
                     <th>Jumlah Pembayaran</th>
-                    <th>Keterangan</th>
+                    <th>Keterangan (Lunas/Belum Lunas)</th>
                     <th>Nama Penyewa</th>
                     <th>Nomor Kamar</th>
                     <th>Aksi</th>
@@ -27,7 +29,7 @@
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $row->nomor_pembayaran }}</td>
-                    <td>{{ $row->tanggal_pembayaran }}</td>
+                    <td>{{ \Carbon\Carbon::parse($row->tanggal_pembayaran)->format('d F Y') }}</td>
                     <td>Rp. {{ number_format($row->jumlah_pembayaran, 0, ',', '.') }}</td>
                     <td>{{ $row->keterangan ?? '-' }}</td>
                     <td>{{ $row->penyewa->nama }}</td>
@@ -36,14 +38,17 @@
                         <a href="{{ route('pembayaran.show', $row->id) }}" title="Lihat Detail">
                             <span class="label label-info"><i class="fa fa-eye"></i> Lihat</span>
                         </a>
-                        <a href="{{ route('pembayaran.edit', $row->id) }}" title="Ubah Data">
-                            <span class="label label-primary"><i class="fa fa-edit"></i> Ubah</span>
-                        </a>
+
+                        @if(auth()->user()->role == 'admin') <!-- Cek apakah pengguna adalah admin -->
+                            <a href="{{ route('pembayaran.edit', $row->id) }}" title="Ubah Data">
+                                <span class="label label-primary"><i class="fa fa-edit"></i> Ubah</span>
+                            </a>
                         <form method="POST" action="{{ route('pembayaran.destroy', $row->id) }}" style="display: inline-block;">
                             @method('DELETE')
                             @csrf
                             <button type="submit" class="label label-danger btn-sm show_confirm" data-toggle="tooltip" title='Hapus' data-konf-delete="{{ $row->nomor_pembayaran }}"><i class="fa fa-trash"></i> Hapus</button>
                         </form>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -61,7 +66,7 @@
         var name = $(this).data("konf-delete");
         event.preventDefault();
         Swal.fire({
-            title: Apakah Anda yakin ingin menghapus ${name}?,
+            title: `Apakah Anda yakin ingin menghapus ${name}?`,
             text: "Jika Anda menghapus ini, data akan hilang selamanya.",
             icon: "warning",
             showCancelButton: true,

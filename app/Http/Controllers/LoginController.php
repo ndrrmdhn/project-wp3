@@ -26,7 +26,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
             return redirect()->intended('/home');
         }
-        return back()->with('msgError', 'Ora Bisa Manjing ooo');
+        return back()->with('msgError', 'Email atau Password salah');
     }
 
     public function logout()

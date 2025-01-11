@@ -13,14 +13,16 @@
                     </tr>
                     <tr>
                         <th scope="row">Tanggal Pembayaran:</th>
-                        <td>{{ $pembayaran->tanggal_pembayaran }}</td>
+                        <td>{{ \Carbon\Carbon::parse($pembayaran->tanggal_pembayaran)->format('d F Y') }}</td>
                     </tr>
                     <tr>
                         <th scope="row">Jumlah Pembayaran:</th>
-                        <td>Rp. {{ number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }}</td>
+                        <td style="font-weight: bold; color: red;">
+                            Rp. {{ number_format($pembayaran->jumlah_pembayaran, 0, ',', '.') }}
+                        </td>                        
                     </tr>
                     <tr>
-                        <th scope="row">Keterangan:</th>
+                        <th scope="row">Keterangan (Lunas/Belum Lunas):</th>
                         <td>{{ $pembayaran->keterangan ?? '-' }}</td>
                     </tr>
                     <tr>
@@ -35,7 +37,10 @@
 
                 <div class="text-center mt-4">
                     <a href="{{ route('pembayaran.index') }}" class="btn btn-default">Kembali</a>
-                    <a href="{{ route('pembayaran.edit', $pembayaran->id) }}" class="btn btn-primary">Ubah</a>
+                    <a href="{{ route('pembayaran.edit', $pembayaran->id) }}" class="btn btn-primary" 
+                        @if(auth()->user()->role != 'admin') style="display: none;" @endif> <!-- Cek apakah pengguna adalah admin -->
+                        Ubah
+                    </a>                    
                     <button onclick="window.print()" class="btn btn-success">Cetak</button>
                     <button onclick="sharePayment()" class="btn btn-success">
                         <i class="fab fa-whatsapp"></i> Bagikan

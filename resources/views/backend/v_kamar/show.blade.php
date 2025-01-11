@@ -2,7 +2,6 @@
 @section('content')<div class="col-xs-12">
     <div class="box-content">
         <h4 class="box-title">{{ $judul }}</h4>
-        <br>
         <div class="row">
             <div class="col-md-6">
                 <table class="table table-bordered">
