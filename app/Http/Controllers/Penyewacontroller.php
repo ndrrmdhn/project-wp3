@@ -27,8 +27,13 @@ class PenyewaController extends Controller
      */
     public function create()
     {
-        $user = User::orderBy('nama', 'asc')->get();
-        $kamar = Kamar::orderBy('nomor', 'asc')->get();
+        // Dapatkan semua ID yang sudah dipilih dari tabel penyewa
+        $usedUserIds = Penyewa::pluck('user_id')->toArray();
+        $usedKamarIds = Penyewa::pluck('kamar_id')->toArray();
+
+        // Filter user dan kamar yang belum dipilih
+        $user = User::whereNotIn('id', $usedUserIds)->get();
+        $kamar = Kamar::whereNotIn('id', $usedKamarIds)->get();
         
         return view('backend.v_penyewa.create', [
             'judul' => 'Tambah Penyewa',
@@ -88,8 +93,14 @@ class PenyewaController extends Controller
     public function edit($id)
     {
         $penyewa = Penyewa::findOrFail($id);
-        $user = User::orderBy('nama', 'asc')->get();
-        $kamar = Kamar::orderBy('nomor', 'asc')->get();
+
+        // Dapatkan semua ID yang sudah dipilih kecuali milik penyewa yang sedang diedit
+        $usedUserIds = Penyewa::where('id', '!=', $id)->pluck('user_id')->toArray();
+        $usedKamarIds = Penyewa::where('id', '!=', $id)->pluck('kamar_id')->toArray();
+
+        // Filter user dan kamar yang belum dipilih, atau yang milik penyewa ini
+        $user = User::whereNotIn('id', $usedUserIds)->orWhere('id', $penyewa->user_id)->get();
+        $kamar = Kamar::whereNotIn('id', $usedKamarIds)->orWhere('id', $penyewa->kamar_id)->get();
         
         return view('backend.v_penyewa.edit', [
             'judul' => 'Ubah Penyewa',

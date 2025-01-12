@@ -50,7 +50,7 @@
                     <td>{{ $item->tanggal_mulai }}</td>
                     <td>{{ $item->tanggal_selesai }}</td>
                     <td>{{ $item->status }}</td>
-                    <td>{{ $item->kamar_id }}</td>
+                    <td>{{ $item->kamar_id }} ({{ $item->kamar->nomor }})</td>
                     <td>
                         <a href="{{ route('penyewa.show', $item->id) }}" title="Lihat Detail">
                             <span class="label label-info"><i class="fa fa-eye"></i> Lihat</span>

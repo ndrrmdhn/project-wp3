@@ -17,21 +17,29 @@
             @csrf
             <div class="mb-3">
                 <label for="user_id" class="form-label">User ID</label>
-                <select name="user_id" id="user_id" class="form-control">
-                    @foreach($user as $u)
-                        <option value="{{ $u->id }}">{{ $u->nama }}</option>
-                    @endforeach
+                <select name="user_id" id="user_id" class="form-control" required>
+                    @if($user->isEmpty())
+                        <option value="">Semua user sudah dipilih</option>
+                    @else
+                        @foreach($user as $u)
+                            <option value="{{ $u->id }}">{{ $u->nama }}</option>
+                        @endforeach
+                    @endif
                 </select>
             </div>
             
             <div class="mb-3">
                 <label for="kamar_id" class="form-label">Kamar ID</label>
-                <select name="kamar_id" id="kamar_id" class="form-control">
-                    @foreach($kamar as $k)
-                        <option value="{{ $k->id }}">{{ $k->nomor }}</option>
-                    @endforeach
+                <select name="kamar_id" id="kamar_id" class="form-control" required>
+                    @if($kamar->isEmpty())
+                        <option value="">Semua kamar sudah dipilih</option>
+                    @else
+                        @foreach($kamar as $k)
+                            <option value="{{ $k->id }}">{{ $k->nomor }}</option>
+                        @endforeach
+                    @endif
                 </select>
-            </div>
+            </div>            
             
             <div class="mb-3">
                 <label for="nama" class="form-label">Nama</label>
